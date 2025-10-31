@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // --- Biến Di chuyển ---
+    public AudioClip jumpSound;
+    private AudioSource audioSource;
     public float moveSpeed = 5.0f;
     private Rigidbody rb;
     private Vector3 moveInput;
@@ -15,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Lấy component Rigidbody
         rb = GetComponent<Rigidbody>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -49,7 +53,13 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             // Thêm một lực đẩy lên (trục Y)
+            Debug.Log("Player dang nhay! Luc nhay: " + jumpForce);
+
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (jumpSound != null)
+            {
+            audioSource.PlayOneShot(jumpSound);
+            }
         }
     }
 
